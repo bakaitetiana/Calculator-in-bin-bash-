@@ -1,0 +1,91 @@
+!/bin/bash 
+eval=$1
+pat="^[0-9]*[.]?[0-9]+$"
+num_pat="[0-9]*[.]?[0-9]+"
+#echo [ ! $eval =~ pat ]
+while [[ ! $eval =~ $pat ]]
+do
+        if [[ $eval =~ \($num_pat\*$num_pat\) ]]; then
+                tmp=$(echo $eval | grep -P "\($num_pat\*$num_pat\)" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1\*$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+
+        elif [[ $eval =~ \($num_pat/$num_pat\) ]]; then
+                tmp=$(echo $eval | grep -P "\($num_pat/$num_pat\)" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1/$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        elif [[ $eval =~ \($num_pat\+$num_pat\) ]]; then
+                tmp=$(echo $eval | grep -P "\($num_pat\+$num_pat\)" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1+$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        elif [[ $eval =~ \($num_pat-$num_pat\) ]]; then
+                ttmp=$(echo $eval | grep -P "\($num_pat-$num_pat\)" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1-$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        elif [[ $eval =~ $num_pat\*$num_pat ]]; then
+                tmp=$(echo $eval | grep -P "$num_pat\*$num_pat" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1\*$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        elif [[ $eval =~ $num_pat/$num_pat ]]; then
+                tmp=$(echo $eval | grep -P "$num_pat/$num_pat" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1/$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        elif [[ $eval =~ $num_pat\+$num_pat ]]; then
+                tmp=$(echo $eval | grep -P "$num_pat\+$num_pat" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1+$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        else
+                tmp=$(echo $eval | grep -P "$num_pat-$num_pat" -o | head -n1)
+                val_1=$(echo $tmp | grep -P "$num_pat" -o | head -n1)
+                val_2=$(echo $tmp | grep -P "$num_pat" -o | tail -n1)
+                #echo $val_1
+                #echo $val_2
+                #solve=$(($val_1*$val_2))
+                res=`echo $val_1-$val_2 | bc`
+                eval=${eval/$tmp/$res}
+                echo $eval  
+        fi
+done
+
